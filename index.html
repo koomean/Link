@@ -25,97 +25,87 @@
             padding: 40px 20px;
         }
 
-        /* Profile Section */
+        /* Profile */
         .profile-section { text-align: center; margin-bottom: 35px; animation: fadeIn 0.8s ease; }
         .profile-img {
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--accent);
-            padding: 4px;
-            object-fit: cover;
-            margin-bottom: 15px;
-            box-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 3px solid var(--accent); padding: 4px; object-fit: cover;
+            margin-bottom: 15px; box-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
         }
         h1 { margin: 0; font-size: 1.8rem; font-weight: 600; }
-        p.bio { opacity: 0.7; margin-top: 5px; font-weight: 300; font-size: 0.95rem; max-width: 400px; line-height: 1.5; }
+        p.bio { opacity: 0.7; margin-top: 5px; font-weight: 300; font-size: 0.95rem; }
 
-        /* Links Section */
-        .container { width: 100%; max-width: 500px; padding-bottom: 60px; }
+        /* Links Container */
+        .container { width: 100%; max-width: 500px; padding-bottom: 60px; display: flex; flex-direction: column; gap: 14px; }
         
         .link-card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             padding: 16px 20px;
-            margin-bottom: 14px;
             border-radius: 16px;
             text-decoration: none;
             color: white;
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
-
         .link-card:hover {
             transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.15);
-            border-color: var(--accent);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.5);
         }
 
-        .link-icon { font-size: 1.5rem; margin-right: 18px; width: 30px; text-align: center; color: var(--accent); }
+        /* --- Real Brand Icons Colors --- */
+        .link-icon { font-size: 1.6rem; margin-right: 18px; width: 35px; text-align: center; transition: 0.3s; }
+        
+        /* Brand Specific Colors */
+        .fa-facebook { color: #1877F2; }
+        .fa-youtube { color: #FF0000; }
+        .fa-instagram { color: #E4405F; }
+        .fa-line { color: #00C300; }
+        .fa-tiktok { color: #ff0050; filter: drop-shadow(2px 2px 0px #00f2ea); }
+        .fa-google-drive { color: #1FA463; } /* Drive Green */
+        .fa-github { color: #ffffff; }
+        .fa-envelope { color: #FFC107; }
+        .fa-link { color: var(--accent); }
+
         .link-text { font-size: 1.05rem; font-weight: 500; }
         
-        /* สัญลักษณ์กุญแจสำหรับ Private Link */
-        .private-badge {
-            margin-left: auto;
-            font-size: 0.8rem;
-            color: #ffbd00;
-            background: rgba(255, 189, 0, 0.15);
-            padding: 4px 8px;
-            border-radius: 10px;
+        /* Badges */
+        .badge {
+            margin-left: auto; font-size: 0.75rem;
+            padding: 4px 10px; border-radius: 20px;
+            font-weight: 600; text-transform: uppercase;
         }
+        .badge-vip { background: linear-gradient(45deg, #FFD700, #FFA500); color: #000; }
+        .badge-private { background: rgba(255,255,255,0.2); color: #fff; }
 
         /* Unlock Button */
         .unlock-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            color: #aaa;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50%;
-            width: 45px; height: 45px;
+            position: fixed; bottom: 20px; right: 20px;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+            color: #aaa; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%; width: 45px; height: 45px;
             display: flex; justify-content: center; align-items: center;
-            cursor: pointer;
-            transition: 0.3s;
-            z-index: 100;
+            cursor: pointer; transition: 0.3s; z-index: 100;
         }
-        .unlock-btn:hover, .unlock-btn.active { color: #ffbd00; border-color: #ffbd00; background: rgba(255, 189, 0, 0.1); }
+        .unlock-btn.active { color: #00d2ff; border-color: #00d2ff; background: rgba(0, 210, 255, 0.1); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Admin Footer Link */
         .admin-link { margin-top: auto; color: rgba(255,255,255,0.2); text-decoration: none; font-size: 0.8rem; }
-        .admin-link:hover { color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <div class="profile-section" id="profile-section">
-        <div style="padding: 20px;">กำลังโหลดโปรไฟล์...</div>
-    </div>
-
+    <div class="profile-section" id="profile-section"></div>
     <div class="container" id="links-container">
-        <div style="text-align: center; opacity: 0.5;">กำลังโหลดลิงก์...</div>
+        <div style="text-align: center; opacity: 0.5;">กำลังโหลด...</div>
     </div>
 
     <a href="admin.html" class="admin-link"><i class="fas fa-cog"></i> Manage</a>
 
-    <button class="unlock-btn" id="unlockBtn" onclick="togglePrivateMode()">
+    <button class="unlock-btn" id="unlockBtn" onclick="handleUnlock()">
         <i class="fas fa-lock"></i>
     </button>
 
@@ -123,110 +113,113 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
-        // --- ⚠️ ใส่ Config ของคุณที่นี่ ---
+        // ⚠️ ใส่ Config ของคุณที่นี่
         const firebaseConfig = {
             apiKey: "AIzaSyB-Brx6cQ7dFhQqbEhDG4xIT4jcVG1yogs",
-            authDomain: "mylinks-web.firebaseapp.com",
-            projectId: "mylinks-web",
-            storageBucket: "mylinks-web.firebasestorage.app",
-            messagingSenderId: "702413304222",
-            appId: "1:702413304222:web:d255e6c2f428bb1e1d668f"
+  authDomain: "mylinks-web.firebaseapp.com",
+  projectId: "mylinks-web",
+  storageBucket: "mylinks-web.firebasestorage.app",
+  messagingSenderId: "702413304222",
+  appId: "1:702413304222:web:d255e6c2f428bb1e1d668f",
         };
 
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        let isPrivateUnlocked = false; // สถานะการปลดล็อค
-        let secretCode = "1234"; // ค่าเริ่มต้น (จะถูกเขียนทับด้วยข้อมูลจาก DB)
+        let currentAccessGroup = 'public'; // เริ่มต้นเห็นแค่ Public
+        let accessRules = {}; // เก็บกฎรหัสผ่าน { "1234": "vip", "5555": "family" }
 
-        // โหลดข้อมูล Profile
-        function loadProfile() {
+        function loadData() {
+            // 1. โหลด Profile และ Access Rules
             db.doc("settings/profile").get().then((doc) => {
                 if (doc.exists) {
                     const data = doc.data();
-                    // อัปเดตรหัสลับ ถ้ามีตั้งไว้
-                    if(data.secretCode) secretCode = data.secretCode;
+                    renderProfile(data);
                     
-                    document.getElementById('profile-section').innerHTML = `
-                        <img src="${data.imageUrl || 'https://ui-avatars.com/api/?name=User'}" class="profile-img">
-                        <h1>${data.name || 'My Links'}</h1>
-                        <p class="bio">${data.bio || ''}</p>
-                    `;
-                } else {
-                    // ถ้ายังไม่มีข้อมูล ให้แสดงค่า Default
-                    document.getElementById('profile-section').innerHTML = `
-                        <img src="https://ui-avatars.com/api/?name=User" class="profile-img">
-                        <h1>ยินดีต้อนรับ</h1>
-                        <p class="bio">ไปที่หน้า Admin เพื่อตั้งค่าโปรไฟล์</p>
-                    `;
+                    // แปลง String การตั้งค่าให้เป็น Object
+                    // รูปแบบใน DB: "1234:vip\n5678:family"
+                    if (data.accessConfig) {
+                        data.accessConfig.split('\n').forEach(line => {
+                            const [code, group] = line.split(':');
+                            if(code && group) accessRules[code.trim()] = group.trim();
+                        });
+                    }
                 }
             });
-        }
 
-        // โหลดรายการลิงก์
-        function loadLinks() {
-            const container = document.getElementById('links-container');
-            
-            db.collection("links").orderBy("createdAt", "desc").get().then((querySnapshot) => {
+            // 2. โหลด Links (เรียงตาม Order)
+            db.collection("links").orderBy("order", "asc").get().then((snapshot) => {
+                const container = document.getElementById('links-container');
                 container.innerHTML = ''; 
-                
-                if(querySnapshot.empty) {
-                    container.innerHTML = '<p style="text-align:center; opacity:0.5;">ยังไม่มีลิงก์</p>';
+
+                if(snapshot.empty) {
+                    container.innerHTML = '<p style="text-align:center; opacity:0.5;">Empty</p>';
                     return;
                 }
 
-                querySnapshot.forEach((doc) => {
+                snapshot.forEach((doc) => {
                     const link = doc.data();
-                    const iconClass = link.icon || 'fas fa-link';
-                    
-                    // ถ้าเป็น Private Link และยังไม่ได้ปลดล็อค -> ข้าม ไม่แสดง
-                    if (link.isPrivate && !isPrivateUnlocked) return;
-
-                    // ถ้าปลดล็อคแล้ว หรือไม่ใช่ Private -> แสดง
-                    let badge = '';
-                    if (link.isPrivate) {
-                        badge = '<span class="private-badge"><i class="fas fa-lock"></i> ลับ</span>';
-                    }
-
-                    const html = `
-                        <a href="${link.url}" target="_blank" class="link-card">
-                            <div class="link-icon"><i class="${iconClass}"></i></div>
-                            <div class="link-text">${link.title}</div>
-                            ${badge}
-                        </a>
-                    `;
-                    container.innerHTML += html;
+                    renderLink(container, link);
                 });
             });
         }
 
-        // ฟังก์ชันปลดล็อคลิงก์ลับ
-        function togglePrivateMode() {
-            if (isPrivateUnlocked) {
-                // ถ้าเปิดอยู่ ให้ปิด (Lock)
-                isPrivateUnlocked = false;
+        function renderProfile(data) {
+            document.getElementById('profile-section').innerHTML = `
+                <img src="${data.imageUrl || 'https://ui-avatars.com/api/?name=User'}" class="profile-img">
+                <h1>${data.name || 'My Links'}</h1>
+                <p class="bio">${data.bio || ''}</p>
+            `;
+        }
+
+        function renderLink(container, link) {
+            // Logic การกรองสิทธิ์
+            const linkGroup = link.group || 'public';
+            
+            // ถ้าลิงก์ไม่ใช่ Public และ สิทธิ์ปัจจุบันของเราไม่ตรงกับกลุ่มของลิงก์ -> ไม่แสดง
+            if (linkGroup !== 'public' && linkGroup !== currentAccessGroup) return;
+
+            const iconClass = link.icon || 'fas fa-link';
+            let badge = '';
+            
+            if (linkGroup !== 'public') {
+                badge = `<span class="badge badge-vip">${linkGroup}</span>`;
+            }
+
+            const html = `
+                <a href="${link.url}" target="_blank" class="link-card">
+                    <div class="link-icon"><i class="${iconClass}"></i></div>
+                    <div class="link-text">${link.title}</div>
+                    ${badge}
+                </a>
+            `;
+            container.innerHTML += html;
+        }
+
+        function handleUnlock() {
+            if (currentAccessGroup !== 'public') {
+                // Logout (กลับไปเป็น public)
+                currentAccessGroup = 'public';
+                alert("🔒 ล็อคระบบแล้ว");
                 document.getElementById('unlockBtn').classList.remove('active');
                 document.getElementById('unlockBtn').innerHTML = '<i class="fas fa-lock"></i>';
-                loadLinks(); // โหลดใหม่ (ซ่อนตัวลับ)
+                loadData(); // โหลดใหม่
             } else {
-                // ถ้าปิดอยู่ ให้ถามรหัส
-                const input = prompt("🔒 กรุณาใส่รหัสเพื่อดูลิงก์ลับ:");
-                if (input === secretCode) {
-                    alert("🔓 ปลดล็อคเรียบร้อย!");
-                    isPrivateUnlocked = true;
+                // Login
+                const input = prompt("🔑 กรุณาใส่รหัสผ่านเข้าถึง:");
+                if (input && accessRules[input]) {
+                    currentAccessGroup = accessRules[input]; // ได้สิทธิ์ตามรหัสที่ใส่
+                    alert(`🔓 ยินดีต้อนรับกลุ่ม: ${currentAccessGroup.toUpperCase()}`);
                     document.getElementById('unlockBtn').classList.add('active');
-                    document.getElementById('unlockBtn').innerHTML = '<i class="fas fa-lock-open"></i>';
-                    loadLinks(); // โหลดใหม่ (แสดงตัวลับ)
-                } else if (input !== null) {
+                    document.getElementById('unlockBtn').innerHTML = '<i class="fas fa-unlock"></i>';
+                    loadData(); // โหลดใหม่
+                } else if (input) {
                     alert("❌ รหัสไม่ถูกต้อง");
                 }
             }
         }
 
-        // เริ่มทำงาน
-        loadProfile();
-        loadLinks();
-
+        loadData();
     </script>
 </body>
 </html>
