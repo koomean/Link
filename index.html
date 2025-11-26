@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Links</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0f0c29;
-            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.08);
             --text-color: #ffffff;
             --accent: #00d2ff;
         }
@@ -17,161 +17,216 @@
             font-family: 'Kanit', sans-serif;
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 40px 20px;
-            position: relative; /* เพื่อให้จัดตำแหน่ง footer ได้ */
         }
 
-        /* --- Profile Section --- */
-        .profile-section { text-align: center; margin-bottom: 40px; }
+        /* Profile Section */
+        .profile-section { text-align: center; margin-bottom: 35px; animation: fadeIn 0.8s ease; }
         .profile-img {
-            width: 110px; height: 110px;
+            width: 120px; height: 120px;
             border-radius: 50%;
             border: 3px solid var(--accent);
-            padding: 3px; /* เว้นระยะห่างรูปกับขอบ */
+            padding: 4px;
             object-fit: cover;
             margin-bottom: 15px;
-            box-shadow: 0 0 25px rgba(0, 210, 255, 0.4);
-            transition: transform 0.3s;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
         }
-        .profile-img:hover { transform: scale(1.05) rotate(5deg); }
-        
-        h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; }
-        p.bio { opacity: 0.8; margin-top: 5px; font-weight: 300; }
+        h1 { margin: 0; font-size: 1.8rem; font-weight: 600; }
+        p.bio { opacity: 0.7; margin-top: 5px; font-weight: 300; font-size: 0.95rem; max-width: 400px; line-height: 1.5; }
 
-        /* --- Links Section --- */
-        .container { width: 100%; max-width: 480px; padding-bottom: 60px; }
+        /* Links Section */
+        .container { width: 100%; max-width: 500px; padding-bottom: 60px; }
         
         .link-card {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 18px 25px;
-            margin-bottom: 16px;
-            border-radius: 50px; /* ปรับให้มนกว่าเดิม */
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            border-radius: 16px;
             text-decoration: none;
             color: white;
             display: flex;
             align-items: center;
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.25s ease;
             position: relative;
             overflow: hidden;
         }
-        
-        /* เอฟเฟกต์แสงวิ่งผ่านปุ่ม */
-        .link-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-        .link-card:hover::before { left: 100%; }
 
         .link-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
             border-color: var(--accent);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
+
+        .link-icon { font-size: 1.5rem; margin-right: 18px; width: 30px; text-align: center; color: var(--accent); }
+        .link-text { font-size: 1.05rem; font-weight: 500; }
         
-        .link-icon { font-size: 1.6rem; margin-right: 20px; width: 35px; text-align: center; color: var(--accent); }
-        .link-text { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.5px; }
-        .loading { text-align: center; color: rgba(255,255,255,0.5); margin-top: 20px; }
+        /* สัญลักษณ์กุญแจสำหรับ Private Link */
+        .private-badge {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: #ffbd00;
+            background: rgba(255, 189, 0, 0.15);
+            padding: 4px 8px;
+            border-radius: 10px;
+        }
 
-        /* --- Admin Button (Footer) --- */
-        .admin-login-btn {
-            margin-top: auto; /* ดันลงล่างสุด */
-            margin-bottom: 20px;
-            color: rgba(255, 255, 255, 0.3);
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* Unlock Button */
+        .unlock-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            color: #aaa;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            width: 45px; height: 45px;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
             transition: 0.3s;
-            padding: 8px 15px;
-            border-radius: 20px;
+            z-index: 100;
         }
-        .admin-login-btn:hover {
-            color: var(--accent);
-            background: rgba(255, 255, 255, 0.05);
-        }
+        .unlock-btn:hover, .unlock-btn.active { color: #ffbd00; border-color: #ffbd00; background: rgba(255, 189, 0, 0.1); }
 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Admin Footer Link */
+        .admin-link { margin-top: auto; color: rgba(255,255,255,0.2); text-decoration: none; font-size: 0.8rem; }
+        .admin-link:hover { color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <div class="profile-section">
-        <img src="https://ui-avatars.com/api/?name=Koo+Mean&background=0D8ABC&color=fff" class="profile-img" alt="Profile">
-        <h1>Koo Mean</h1>
-        <p class="bio">Web Developer & Content Creator</p>
+    <div class="profile-section" id="profile-section">
+        <div style="padding: 20px;">กำลังโหลดโปรไฟล์...</div>
     </div>
 
     <div class="container" id="links-container">
-        <div class="loading"><i class="fas fa-circle-notch fa-spin"></i> กำลังโหลดข้อมูล...</div>
+        <div style="text-align: center; opacity: 0.5;">กำลังโหลดลิงก์...</div>
     </div>
 
-    <a href="admin.html" class="admin-login-btn">
-        <i class="fas fa-cog"></i> จัดการหลังบ้าน
-    </a>
+    <a href="admin.html" class="admin-link"><i class="fas fa-cog"></i> Manage</a>
+
+    <button class="unlock-btn" id="unlockBtn" onclick="togglePrivateMode()">
+        <i class="fas fa-lock"></i>
+    </button>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
-        // ---------------------------------------------------------
-        // ⚠️ อย่าลืมเอาค่าจาก Firebase Console มาใส่ตรงนี้เหมือนเดิมนะครับ
-        // ---------------------------------------------------------
+        // --- ⚠️ ใส่ Config ของคุณที่นี่ ---
         const firebaseConfig = {
-            apiKey: "AIzaSyB-Brx6cQ7dFhQqbEhDG4xIT4jcVG1yogs",
-            authDomain: "mylinks-web.firebaseapp.com",
-            projectId: "mylinks-web",
-            storageBucket: "mylinks-web.firebasestorage.app",
-            messagingSenderId: "702413304222",
-            appId: "1:702413304222:web:d255e6c2f428bb1e1d668f"
+            apiKey: "ใส่_API_KEY_ของคุณ",
+            authDomain: "...",
+            projectId: "...",
+            storageBucket: "...",
+            messagingSenderId: "...",
+            appId: "..."
         };
-        // ---------------------------------------------------------
 
-        // Initialize Firebase (ตรวจสอบว่ายังไม่เคย init)
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        const container = document.getElementById('links-container');
+        let isPrivateUnlocked = false; // สถานะการปลดล็อค
+        let secretCode = "1234"; // ค่าเริ่มต้น (จะถูกเขียนทับด้วยข้อมูลจาก DB)
 
-        // ดึงข้อมูลลิงก์มาแสดง
-        db.collection("links").orderBy("createdAt", "desc").get().then((querySnapshot) => {
-            container.innerHTML = ''; // เคลียร์ Loading
-            
-            if(querySnapshot.empty) {
-                container.innerHTML = '<p style="text-align:center; opacity:0.5;">ยังไม่มีลิงก์</p>';
-                return;
-            }
-
-            querySnapshot.forEach((doc) => {
-                const link = doc.data();
-                const iconClass = link.icon || 'fas fa-link'; 
-                
-                const html = `
-                    <a href="${link.url}" target="_blank" class="link-card">
-                        <div class="link-icon"><i class="${iconClass}"></i></div>
-                        <div class="link-text">${link.title}</div>
-                    </a>
-                `;
-                container.innerHTML += html;
+        // โหลดข้อมูล Profile
+        function loadProfile() {
+            db.doc("settings/profile").get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    // อัปเดตรหัสลับ ถ้ามีตั้งไว้
+                    if(data.secretCode) secretCode = data.secretCode;
+                    
+                    document.getElementById('profile-section').innerHTML = `
+                        <img src="${data.imageUrl || 'https://ui-avatars.com/api/?name=User'}" class="profile-img">
+                        <h1>${data.name || 'My Links'}</h1>
+                        <p class="bio">${data.bio || ''}</p>
+                    `;
+                } else {
+                    // ถ้ายังไม่มีข้อมูล ให้แสดงค่า Default
+                    document.getElementById('profile-section').innerHTML = `
+                        <img src="https://ui-avatars.com/api/?name=User" class="profile-img">
+                        <h1>ยินดีต้อนรับ</h1>
+                        <p class="bio">ไปที่หน้า Admin เพื่อตั้งค่าโปรไฟล์</p>
+                    `;
+                }
             });
-        }).catch((error) => {
-            console.error("Error:", error);
-            container.innerHTML = '<p style="text-align:center; color:#ff4757;">โหลดข้อมูลไม่สำเร็จ<br><small>กรุณาตรวจสอบ Console</small></p>';
-        });
+        }
+
+        // โหลดรายการลิงก์
+        function loadLinks() {
+            const container = document.getElementById('links-container');
+            
+            db.collection("links").orderBy("createdAt", "desc").get().then((querySnapshot) => {
+                container.innerHTML = ''; 
+                
+                if(querySnapshot.empty) {
+                    container.innerHTML = '<p style="text-align:center; opacity:0.5;">ยังไม่มีลิงก์</p>';
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const link = doc.data();
+                    const iconClass = link.icon || 'fas fa-link';
+                    
+                    // ถ้าเป็น Private Link และยังไม่ได้ปลดล็อค -> ข้าม ไม่แสดง
+                    if (link.isPrivate && !isPrivateUnlocked) return;
+
+                    // ถ้าปลดล็อคแล้ว หรือไม่ใช่ Private -> แสดง
+                    let badge = '';
+                    if (link.isPrivate) {
+                        badge = '<span class="private-badge"><i class="fas fa-lock"></i> ลับ</span>';
+                    }
+
+                    const html = `
+                        <a href="${link.url}" target="_blank" class="link-card">
+                            <div class="link-icon"><i class="${iconClass}"></i></div>
+                            <div class="link-text">${link.title}</div>
+                            ${badge}
+                        </a>
+                    `;
+                    container.innerHTML += html;
+                });
+            });
+        }
+
+        // ฟังก์ชันปลดล็อคลิงก์ลับ
+        function togglePrivateMode() {
+            if (isPrivateUnlocked) {
+                // ถ้าเปิดอยู่ ให้ปิด (Lock)
+                isPrivateUnlocked = false;
+                document.getElementById('unlockBtn').classList.remove('active');
+                document.getElementById('unlockBtn').innerHTML = '<i class="fas fa-lock"></i>';
+                loadLinks(); // โหลดใหม่ (ซ่อนตัวลับ)
+            } else {
+                // ถ้าปิดอยู่ ให้ถามรหัส
+                const input = prompt("🔒 กรุณาใส่รหัสเพื่อดูลิงก์ลับ:");
+                if (input === secretCode) {
+                    alert("🔓 ปลดล็อคเรียบร้อย!");
+                    isPrivateUnlocked = true;
+                    document.getElementById('unlockBtn').classList.add('active');
+                    document.getElementById('unlockBtn').innerHTML = '<i class="fas fa-lock-open"></i>';
+                    loadLinks(); // โหลดใหม่ (แสดงตัวลับ)
+                } else if (input !== null) {
+                    alert("❌ รหัสไม่ถูกต้อง");
+                }
+            }
+        }
+
+        // เริ่มทำงาน
+        loadProfile();
+        loadLinks();
+
     </script>
 </body>
 </html>
