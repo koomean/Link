@@ -11,3 +11,5 @@ Version 2.1.0 Build L251125KM (Admin Page Improve UI , Add Permission Level)
 Version 2.2.0 Build L251125KM (Add Higlight Video on Homepage , Group Spetial Permission Level)
 
 Version 2.3.0 Build L251125KM (Hide Password on Admin Page)
+
+Version 2.4.0 Build L251125KM (More than 1 Permission for 1 Link)
