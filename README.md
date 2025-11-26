@@ -7,3 +7,5 @@ Version 1.0.0 Build L251125KM (First Link Profile(Beta1))
 Version 2.0.0 Build L251125KM (NEW UI , Add Lock Links)
 
 Version 2.1.0 Build L251125KM (Admin Page Improve UI , Add Permission Level)
+
+Version 2.2.0 Build L251125KM (Add Higlight Video on Homepage , Group Spetial Permission Level)
