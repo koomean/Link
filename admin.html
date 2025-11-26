@@ -12,17 +12,42 @@
         .wrapper { width: 100%; max-width: 600px; }
         .card { background: var(--panel); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
         h3 { margin: 0 0 15px 0; color: var(--accent); border-left: 3px solid var(--accent); padding-left: 10px; font-size: 1.1rem; }
-        input, select, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #444; background: var(--input); color: white; box-sizing: border-box; outline: none; }
-        input:focus { border-color: var(--accent); }
+        
+        input, select, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #444; background: var(--input); color: white; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+        
+        /* --- Password Toggle Style --- */
+        .password-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .password-container input {
+            margin-bottom: 0; /* ลบ margin เดิมออกเพราะมี container คุมแล้ว */
+            padding-right: 40px; /* เว้นที่ให้ไอคอนลูกตา */
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        .toggle-password:hover { color: var(--accent); }
+
         .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: 500; cursor: pointer; background: var(--accent); color: #000; font-family: 'Kanit'; transition: 0.2s; }
         .btn:hover { filter: brightness(1.1); }
         .btn-green { background: #2ecc71; color: white; }
+        
         .link-item { background: #252525; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid #444; }
         .link-content { flex-grow: 1; margin-left: 10px; }
         .link-actions { display: flex; gap: 5px; }
         .btn-icon { background: #333; color: #aaa; width: 32px; height: 32px; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .btn-icon:hover { background: #444; color: white; }
         .btn-del { background: rgba(255, 71, 87, 0.1); color: #ff4757; }
+        
         #login-screen, #admin-screen { display: none; }
     </style>
 </head>
@@ -31,8 +56,14 @@
     <div id="login-screen" class="wrapper" style="margin-top: 10vh;">
         <div class="card" style="text-align: center;">
             <h1 style="color:white; margin-bottom:20px;">🔒 Admin</h1>
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Password">
+            
+            <input type="email" id="email" placeholder="Email" style="margin-bottom: 15px;">
+            
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Password">
+                <i class="fas fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+            </div>
+
             <button class="btn" onclick="login()">Login</button>
             <p id="login-error" style="color: #ff4757; font-size: 0.9rem; margin-top: 10px;"></p>
         </div>
@@ -123,6 +154,22 @@
             }
         });
 
+        // --- ฟังก์ชัน Toggle Password ---
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('togglePassword');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
         function login() {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
@@ -137,7 +184,7 @@
                     document.getElementById('prof-img').value = d.imageUrl || '';
                     document.getElementById('prof-name').value = d.name || '';
                     document.getElementById('prof-bio').value = d.bio || '';
-                    document.getElementById('prof-video').value = d.featuredVideo || ''; // โหลดลิงก์วิดีโอ
+                    document.getElementById('prof-video').value = d.featuredVideo || ''; 
                     document.getElementById('prof-config').value = d.accessConfig || '';
                 }
             });
@@ -148,7 +195,7 @@
                 imageUrl: document.getElementById('prof-img').value,
                 name: document.getElementById('prof-name').value,
                 bio: document.getElementById('prof-bio').value,
-                featuredVideo: document.getElementById('prof-video').value, // บันทึกลิงก์วิดีโอ
+                featuredVideo: document.getElementById('prof-video').value, 
                 accessConfig: document.getElementById('prof-config').value
             }, { merge: true }).then(() => alert('✅ Saved!'));
         }
