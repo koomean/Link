@@ -26,7 +26,7 @@
         }
 
         /* Profile */
-        .profile-section { text-align: center; margin-bottom: 20px; animation: fadeIn 0.8s ease; }
+        .profile-section { text-align: center; margin-bottom: 25px; animation: fadeIn 0.8s ease; }
         .profile-img {
             width: 120px; height: 120px; border-radius: 50%;
             border: 3px solid var(--accent); padding: 4px; object-fit: cover;
@@ -35,22 +35,16 @@
         h1 { margin: 0; font-size: 1.8rem; font-weight: 600; }
         p.bio { opacity: 0.7; margin-top: 5px; font-weight: 300; font-size: 0.95rem; }
 
-        /* Video Container (Youtube) */
+        /* Video Container */
         .video-container {
             width: 100%; max-width: 500px; margin-bottom: 25px;
-            display: none; /* ซ่อนก่อน ถ้าไม่มีคลิป */
-            animation: fadeIn 1s ease;
+            display: none; animation: fadeIn 1s ease;
         }
         .video-wrapper {
-            position: relative; padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0; overflow: hidden; border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            background: #000;
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); background: #000;
         }
-        .video-wrapper iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
         /* Links Container */
         .container { width: 100%; max-width: 500px; padding-bottom: 60px; display: flex; flex-direction: column; gap: 14px; }
@@ -73,12 +67,12 @@
             border-color: rgba(255,255,255,0.5);
         }
 
-        /* Link Styles */
         .link-card.special-access {
             background: rgba(0, 210, 255, 0.15);
             border-color: var(--accent);
             box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
         }
+        
         .group-divider {
             display: flex; align-items: center; color: var(--accent);
             font-size: 0.9rem; margin: 10px 0 5px 0; font-weight: 500;
@@ -98,7 +92,6 @@
         .badge { margin-left: auto; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
         .badge-vip { background: linear-gradient(45deg, #FFD700, #FFA500); color: #000; }
 
-        /* Unlock Btn */
         .unlock-btn {
             position: fixed; bottom: 20px; right: 20px;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
@@ -136,7 +129,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
-        // ⚠️ ใส่ Config เดิมของคุณ
+        // ⚠️ ใส่ Config ของคุณที่นี่
         const firebaseConfig = {
             apiKey: "AIzaSyB-Brx6cQ7dFhQqbEhDG4xIT4jcVG1yogs",
   authDomain: "mylinks-web.firebaseapp.com",
@@ -157,8 +150,7 @@
                 if (doc.exists) {
                     const data = doc.data();
                     renderProfile(data);
-                    renderVideo(data.featuredVideo); // เพิ่มการเรนเดอร์วิดีโอ
-
+                    renderVideo(data.featuredVideo);
                     if (data.accessConfig) {
                         data.accessConfig.split('\n').forEach(line => {
                             const [code, group] = line.split(':');
@@ -180,13 +172,28 @@
                 let allLinks = [];
                 snapshot.forEach(doc => allLinks.push(doc.data()));
 
+                // --- LOGIC ใหม่: รองรับหลายกลุ่ม (Multi-Group) ---
                 const visibleLinks = allLinks.filter(link => {
-                    const linkGroup = link.group || 'public';
-                    return linkGroup === 'public' || linkGroup === currentAccessGroup;
+                    const groupString = link.group || 'public';
+                    // แปลงข้อความ "vip, family" ให้เป็น Array ["vip", "family"]
+                    const allowedGroups = groupString.split(',').map(g => g.trim());
+                    
+                    // เช็คว่า 'public' หรือ กลุ่มปัจจุบันของผู้ใช้ อยู่ใน Array นั้นไหม
+                    return allowedGroups.includes('public') || allowedGroups.includes(currentAccessGroup);
                 });
 
-                const specialLinks = visibleLinks.filter(link => link.group === currentAccessGroup && currentAccessGroup !== 'public');
-                const publicLinks = visibleLinks.filter(link => !link.group || link.group === 'public');
+                // แยกกองลิงก์ (Special vs Public)
+                const specialLinks = visibleLinks.filter(link => {
+                    const groupString = link.group || 'public';
+                    const allowedGroups = groupString.split(',').map(g => g.trim());
+                    // เป็น Special ถ้าไม่ใช่ public และกลุ่มปัจจุบันของผู้ใช้อยู่ใน list
+                    return !allowedGroups.includes('public') && allowedGroups.includes(currentAccessGroup);
+                });
+                
+                const publicLinks = visibleLinks.filter(link => {
+                     const groupString = link.group || 'public';
+                     return groupString.includes('public');
+                });
 
                 if (specialLinks.length > 0) {
                     container.innerHTML += `<div class="group-divider"><span>🔓 สิทธิ์พิเศษ: ${currentAccessGroup.toUpperCase()}</span></div>`;
@@ -207,25 +214,18 @@
             `;
         }
 
-        // ฟังก์ชันแสดงวิดีโอ
         function renderVideo(url) {
             const videoContainer = document.getElementById('featured-video');
             const iframe = document.getElementById('youtube-iframe');
-            
             if (url) {
                 const videoId = extractVideoID(url);
                 if (videoId) {
                     iframe.src = `https://www.youtube.com/embed/${videoId}`;
                     videoContainer.style.display = 'block';
-                } else {
-                    videoContainer.style.display = 'none';
-                }
-            } else {
-                videoContainer.style.display = 'none';
-            }
+                } else { videoContainer.style.display = 'none'; }
+            } else { videoContainer.style.display = 'none'; }
         }
 
-        // ฟังก์ชันช่วยดึง ID จากลิงก์ Youtube
         function extractVideoID(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
             const match = url.match(regExp);
@@ -235,7 +235,8 @@
         function renderLink(container, link, isSpecial) {
             const iconClass = link.icon || 'fas fa-link';
             const specialClass = isSpecial ? 'special-access' : '';
-            const badge = isSpecial ? `<span class="badge badge-vip">${link.group}</span>` : '';
+            // โชว์ Badge เป็นชื่อกลุ่มที่เรา Login อยู่
+            const badge = isSpecial ? `<span class="badge badge-vip">${currentAccessGroup}</span>` : '';
 
             const html = `
                 <a href="${link.url}" target="_blank" class="link-card ${specialClass}">
