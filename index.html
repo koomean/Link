@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Links</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f0c29;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --accent: #00d2ff;
+        }
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .profile-section { text-align: center; margin-bottom: 40px; }
+        .profile-img {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
+        }
+        .container { width: 100%; max-width: 480px; }
+        .link-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .link-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .link-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
+        .link-text { font-size: 1.1rem; font-weight: 500; }
+        .loading { text-align: center; color: #aaa; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="profile-section">
+        <img src="https://ui-avatars.com/api/?name=Koo+Mean&background=0D8ABC&color=fff" class="profile-img" alt="Profile">
+        <h1>Koo Mean</h1>
+        <p style="opacity: 0.7;">รวมลิงก์ที่น่าสนใจของผม</p>
+    </div>
+
+    <div class="container" id="links-container">
+        <div class="loading"><i class="fas fa-circle-notch fa-spin"></i> กำลังโหลด...</div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+        // ---------------------------------------------------------
+        // ⚠️ เอาค่าจาก Firebase Console มาใส่ตรงนี้!
+        // ---------------------------------------------------------
+        const firebaseConfig = {
+            apiKey: "AIzaSy...",
+            authDomain: "...",
+            projectId: "...",
+            storageBucket: "...",
+            messagingSenderId: "...",
+            appId: "..."
+        };
+        // ---------------------------------------------------------
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const container = document.getElementById('links-container');
+
+        // ดึงข้อมูลลิงก์มาแสดง
+        db.collection("links").orderBy("createdAt", "desc").get().then((querySnapshot) => {
+            container.innerHTML = ''; // เคลียร์ Loading
+            
+            if(querySnapshot.empty) {
+                container.innerHTML = '<p style="text-align:center; opacity:0.5;">ยังไม่มีลิงก์</p>';
+                return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                const link = doc.data();
+                const iconClass = link.icon || 'fas fa-link'; // ไอคอนเริ่มต้น
+                
+                const html = `
+                    <a href="${link.url}" target="_blank" class="link-card">
+                        <div class="link-icon"><i class="${iconClass}"></i></div>
+                        <div class="link-text">${link.title}</div>
+                    </a>
+                `;
+                container.innerHTML += html;
+            });
+        }).catch((error) => {
+            console.error("Error:", error);
+            container.innerHTML = '<p style="text-align:center; color:red;">โหลดข้อมูลไม่สำเร็จ</p>';
+        });
+    </script>
+</body>
+</html>
