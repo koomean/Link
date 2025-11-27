@@ -30,117 +30,125 @@
         /* --- Navbar --- */
         .navbar {
             position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
-            background: rgba(15, 12, 41, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            background: rgba(15, 12, 41, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 20px; box-sizing: border-box; z-index: 1000;
+            padding: 0 15px; box-sizing: border-box; z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         
-        /* Logo + Apps Menu */
-        .nav-left { display: flex; align-items: center; gap: 20px; }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
         
         .nav-logo {
-            font-size: 1.2rem; font-weight: 600; color: #fff; text-decoration: none;
-            display: flex; align-items: center; gap: 10px; letter-spacing: 0.5px;
+            font-size: 1.1rem; font-weight: 600; color: #fff; text-decoration: none;
+            display: flex; align-items: center; gap: 8px; white-space: nowrap;
         }
-        .nav-logo i { color: var(--accent); font-size: 1.1rem; }
+        .nav-logo i { color: var(--accent); }
         .nav-logo span { background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Dropdown Apps */
+        /* --- แก้ไข Dropdown Apps --- */
         .dropdown { position: relative; display: inline-block; }
+        
         .dropbtn {
-            color: rgba(255,255,255,0.7); cursor: pointer; font-size: 0.95rem; font-weight: 500;
+            color: rgba(255,255,255,0.8); cursor: pointer; font-size: 0.9rem; font-weight: 500;
             padding: 8px 12px; border-radius: 8px; transition: 0.3s; display: flex; align-items: center; gap: 5px;
+            user-select: none; /* ป้องกันการคลุมดำเวลาแตะ */
         }
-        .dropbtn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .dropbtn:active, .dropbtn.active { background: rgba(255,255,255,0.15); color: #fff; }
+        
         .dropdown-content {
-            display: none; position: absolute; top: 100%; left: 0;
-            background-color: rgba(20, 20, 30, 0.95); min-width: 180px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5); border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1); overflow: hidden; margin-top: 5px;
-            backdrop-filter: blur(10px);
+            display: none; 
+            position: absolute; 
+            top: 100%; 
+            left: 0;
+            margin-top: 2px; /* ลดช่องว่างให้น้อยที่สุด */
+            background-color: #1e1e2f; 
+            min-width: 180px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6); 
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1); 
+            overflow: hidden; 
+            z-index: 1001;
         }
-        .dropdown-content a {
-            color: #e0e0e0; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9rem; transition: 0.2s;
-        }
-        .dropdown-content a:hover { background-color: var(--accent); color: #000; }
-        .dropdown:hover .dropdown-content { display: block; }
+        
+        /* เพิ่ม class สำหรับเปิดเมนู (ใช้ JS ควบคุม) */
+        .dropdown-content.show { display: block; animation: fadeInMenu 0.2s ease; }
+        
+        @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Right Side: Clock & Profile */
-        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .dropdown-content a {
+            color: #e0e0e0; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9rem; 
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover { background-color: var(--accent); color: #000; }
+
+        /* Right Side */
+        .nav-right { display: flex; align-items: center; gap: 10px; }
         
         .nav-clock {
-            font-family: 'Courier New', monospace; font-weight: bold; font-size: 1rem;
-            color: var(--accent); text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
-            background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 6px;
-            border: 1px solid rgba(0, 210, 255, 0.3);
+            font-family: monospace; font-weight: bold; font-size: 0.85rem;
+            color: var(--accent); background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 6px;
+            border: 1px solid rgba(0, 210, 255, 0.3); white-space: nowrap;
         }
 
         .nav-profile-img {
-            width: 38px; height: 38px; border-radius: 50%;
+            width: 34px; height: 34px; border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.2);
-            object-fit: cover; cursor: pointer; transition: transform 0.3s;
-            background: #fff;
+            object-fit: cover; cursor: pointer; transition: transform 0.3s; background: #fff;
         }
-        .nav-profile-img:hover { transform: scale(1.1); border-color: var(--accent); }
 
-        /* Main Content */
+        /* Content Styles (เหมือนเดิม) */
         .profile-section { text-align: center; margin-bottom: 25px; animation: fadeIn 0.8s ease; }
         .profile-img {
-            width: 120px; height: 120px; border-radius: 50%;
+            width: 110px; height: 110px; border-radius: 50%;
             border: 3px solid var(--accent); padding: 4px; object-fit: cover;
             margin-bottom: 15px; box-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
         }
-        h1 { margin: 0; font-size: 1.8rem; font-weight: 600; }
-        p.bio { opacity: 0.7; margin-top: 5px; font-weight: 300; font-size: 0.95rem; }
+        h1 { margin: 0; font-size: 1.6rem; font-weight: 600; }
+        p.bio { opacity: 0.7; margin-top: 5px; font-weight: 300; font-size: 0.9rem; }
 
-        .video-container {
-            width: 90%; max-width: 500px; margin-bottom: 25px; display: none; animation: fadeIn 1s ease;
-        }
-        .video-wrapper {
-            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); background: #000;
-        }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-container { width: 95%; max-width: 500px; margin-bottom: 20px; display: none; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; }
 
-        .container { width: 90%; max-width: 500px; padding-bottom: 60px; display: flex; flex-direction: column; gap: 14px; }
+        .container { width: 95%; max-width: 500px; padding-bottom: 60px; display: flex; flex-direction: column; gap: 12px; }
         
         .link-card {
-            background: var(--card-bg); backdrop-filter: blur(10px); padding: 16px 20px;
-            border-radius: 16px; text-decoration: none; color: white; display: flex; align-items: center;
-            border: 1px solid rgba(255,255,255,0.1); transition: all 0.25s ease; position: relative; overflow: hidden;
+            background: var(--card-bg); backdrop-filter: blur(10px); padding: 15px 20px;
+            border-radius: 14px; text-decoration: none; color: white; display: flex; align-items: center;
+            border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s ease;
         }
-        .link-card:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.15); border-color: rgba(255,255,255,0.5); }
-        .link-card.special-access { background: rgba(0, 210, 255, 0.15); border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+        .link-card:active { transform: scale(0.98); }
+        .link-card.special-access { background: rgba(0, 210, 255, 0.1); border-color: var(--accent); }
         
-        .group-divider { display: flex; align-items: center; color: var(--accent); font-size: 0.9rem; margin: 10px 0 5px 0; font-weight: 500; }
-        .group-divider::before, .group-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.2); }
+        .group-divider { display: flex; align-items: center; color: var(--accent); font-size: 0.85rem; margin: 10px 0 5px 0; }
+        .group-divider::before, .group-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.15); }
         .group-divider span { padding: 0 10px; }
 
-        .link-icon { font-size: 1.6rem; margin-right: 18px; width: 35px; text-align: center; }
+        .link-icon { font-size: 1.4rem; margin-right: 15px; width: 30px; text-align: center; }
         .fa-facebook { color: #1877F2; } .fa-youtube { color: #FF0000; } .fa-instagram { color: #E4405F; }
-        .fa-line { color: #00C300; } .fa-tiktok { color: #ff0050; filter: drop-shadow(2px 2px 0px #00f2ea); }
+        .fa-line { color: #00C300; } .fa-tiktok { color: #ff0050; filter: drop-shadow(1px 1px 0px #00f2ea); }
         .fa-google-drive { color: #1FA463; } .fa-github { color: #ffffff; } .fa-envelope { color: #FFC107; }
         .fa-link { color: var(--accent); }
-        .link-text { font-size: 1.05rem; font-weight: 500; }
-        .badge { margin-left: auto; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
+        .link-text { font-size: 1rem; font-weight: 500; }
+        .badge { margin-left: auto; font-size: 0.7rem; padding: 3px 8px; border-radius: 10px; text-transform: uppercase; }
         .badge-vip { background: linear-gradient(45deg, #FFD700, #FFA500); color: #000; }
 
         .unlock-btn {
             position: fixed; bottom: 20px; right: 20px; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
             color: #aaa; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; width: 45px; height: 45px;
-            display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; z-index: 100;
+            display: flex; justify-content: center; align-items: center; transition: 0.3s; z-index: 100;
         }
         .unlock-btn.active { color: #00d2ff; border-color: #00d2ff; background: rgba(0, 210, 255, 0.1); }
         .admin-link { margin-top: auto; color: rgba(255,255,255,0.2); text-decoration: none; font-size: 0.8rem; padding-bottom: 20px; }
-        .admin-link:hover { color: var(--accent); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Responsive Navbar */
+
+        /* Responsive Adjustments */
         @media (max-width: 400px) {
-            .nav-logo span { display: none; } /* ซ่อนชื่อเว็บถ้าจอเล็กมาก */
-            .dropbtn { font-size: 0.85rem; }
+            .nav-logo span { display: none; } /* ซ่อนชื่อโลโก้บนมือถือเล็กๆ */
+            .dropbtn { font-size: 0.85rem; padding: 6px 10px; }
+            .nav-clock { font-size: 0.75rem; padding: 3px 6px; }
         }
     </style>
 </head>
@@ -154,8 +162,8 @@
             </a>
             
             <div class="dropdown">
-                <div class="dropbtn">
-                    <i class="fas fa-th-large"></i> แอปพลิเคชัน <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
+                <div class="dropbtn" onclick="toggleDropdown()">
+                    <i class="fas fa-th-large"></i> แอป <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
                 </div>
                 <div class="dropdown-content" id="apps-dropdown-list">
                     </div>
@@ -163,8 +171,7 @@
         </div>
         
         <div class="nav-right">
-            <div class="nav-clock" id="nav-clock">00:00:00</div>
-            
+            <div class="nav-clock" id="nav-clock">00:00</div>
             <div class="nav-user-container" onclick="window.location.href='admin.html'">
                 <img id="nav-profile-img" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="nav-profile-img" alt="User">
             </div>
@@ -213,15 +220,37 @@
         let adminProfileImage = '';
         let userImagesMap = {};
 
-        // --- Clock Script ---
+        // --- ฟังก์ชันควบคุม Dropdown (แก้บั๊กมือถือ & เมาส์หลุด) ---
+        function toggleDropdown() {
+            document.getElementById("apps-dropdown-list").classList.toggle("show");
+            document.querySelector(".dropbtn").classList.toggle("active");
+        }
+
+        // ปิด Dropdown เมื่อกดที่อื่น
+        window.onclick = function(event) {
+            if (!event.target.closest('.dropdown')) { // ถ้าไม่ได้กดที่ตัว Dropdown
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var btn = document.querySelector(".dropbtn");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                        btn.classList.remove('active');
+                    }
+                }
+            }
+        }
+
+        // --- Clock ---
         function updateClock() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('th-TH'); // แสดงเวลาไทย
+            const timeString = now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
             document.getElementById('nav-clock').innerText = timeString;
         }
         setInterval(updateClock, 1000);
-        updateClock(); // Run immediately
+        updateClock();
 
+        // --- Load Data ---
         function loadData() {
             db.doc("settings/profile").get().then((doc) => {
                 if (doc.exists) {
@@ -230,12 +259,8 @@
                     renderVideo(data.featuredVideo);
                     adminProfileImage = data.navbarAdminImage;
                     
-                    // โหลดและสร้างเมนูแอป
-                    if (data.appsConfig) {
-                        renderAppsMenu(data.appsConfig);
-                    } else {
-                        document.getElementById('apps-dropdown-list').innerHTML = '<a href="#" style="color:#aaa;">ไม่มีแอป</a>';
-                    }
+                    if (data.appsConfig) renderAppsMenu(data.appsConfig);
+                    else document.getElementById('apps-dropdown-list').innerHTML = '<a href="#" style="color:#aaa;">ไม่มีแอป</a>';
 
                     if (data.userImagesConfig) {
                         data.userImagesConfig.split('\n').forEach(line => {
@@ -254,7 +279,6 @@
                             if(code && group) accessRules[code.trim()] = group.trim();
                         });
                     }
-
                     checkAuthStatus();
                 }
             });
@@ -295,8 +319,7 @@
 
         function renderAppsMenu(configStr) {
             const menuContainer = document.getElementById('apps-dropdown-list');
-            menuContainer.innerHTML = ''; // Clear
-            
+            menuContainer.innerHTML = ''; 
             configStr.split('\n').forEach(line => {
                 const parts = line.split('|');
                 if(parts.length >= 2) {
@@ -307,26 +330,15 @@
             });
         }
 
-        function checkAuthStatus() {
-            const user = auth.currentUser;
-            updateNavbarUI(user);
-        }
-
-        auth.onAuthStateChanged((user) => {
-            updateNavbarUI(user);
-        });
+        function checkAuthStatus() { const user = auth.currentUser; updateNavbarUI(user); }
+        auth.onAuthStateChanged((user) => { updateNavbarUI(user); });
 
         function updateNavbarUI(user) {
             const navImg = document.getElementById('nav-profile-img');
-            
             if (user) {
-                if (userImagesMap[user.email]) {
-                    navImg.src = userImagesMap[user.email];
-                } else if (adminProfileImage) {
-                    navImg.src = adminProfileImage;
-                } else {
-                    navImg.src = user.photoURL || `https://ui-avatars.com/api/?name=${user.email}&background=random`;
-                }
+                if (userImagesMap[user.email]) navImg.src = userImagesMap[user.email];
+                else if (adminProfileImage) navImg.src = adminProfileImage;
+                else navImg.src = user.photoURL || `https://ui-avatars.com/api/?name=${user.email}&background=random`;
                 navImg.style.borderColor = "#00d2ff";
             } else {
                 if (currentAccessGroup !== 'public' && userImagesMap[currentAccessGroup]) {
@@ -369,7 +381,6 @@
             const iconClass = link.icon || 'fas fa-link';
             const specialClass = isSpecial ? 'special-access' : '';
             const badge = isSpecial ? `<span class="badge badge-vip">${currentAccessGroup}</span>` : '';
-
             const html = `
                 <a href="${link.url}" target="_blank" class="link-card ${specialClass}">
                     <div class="link-icon"><i class="${iconClass}"></i></div>
