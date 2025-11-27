@@ -19,3 +19,5 @@ Version 3.0.0 Build L271125KM (Add menu bar on top)
 Version 3.1.0 Build L271125.1KM (Add menu bar on top)
 
 Version 3.1.0 Build L271125.2KM (Profile On Nav)
+
+Version 3.1.0 Build L271125.3KM (Add Application On Nav)
